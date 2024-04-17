@@ -1,0 +1,31 @@
+{
+  "name": "MCQ Quizizz Auto Create",
+  "version": "1.0.5",
+  "manifest_version": 2,
+  "description": "Tự động hoá việc thêm tn mcq",
+  "icons": {
+      "16": "img/logo.ico",
+      "48": "img/logo.ico"
+  },
+  "browser_action": {
+      "default_popup": "index.html",
+      "default_icon": {
+          "19": "img/logo.ico",
+          "38": "img/logo.ico"
+      }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://quizizz.com/admin/quiz/*"],
+      "js": ["./js/Content_Script.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "permissions": [
+      "activeTab",
+      "https://quizizz.com/*"
+  ],
+
+  "web_accessible_resources": ["./js/Content_Script.js"]
+}
