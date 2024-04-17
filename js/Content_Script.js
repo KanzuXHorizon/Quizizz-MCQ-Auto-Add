@@ -217,8 +217,8 @@ function createPopup() {
                     continue;
                 }
                 else {
-                    if (appendChild.length > 1) {
-                      format.Question = appendChild.join('\n');
+                    if (appendChild.length >= 1) {
+                      format.Question = t[i] + appendChild.join('\n');
                       format.Question = [];
                     }
                     else {
