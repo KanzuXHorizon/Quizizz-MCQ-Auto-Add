@@ -207,15 +207,23 @@ function createPopup() {
         }
         var  ii = 1
         //console.log(t)
+        var appendChild = []
         for (let i = 0; i < t.length; i++) {
             if (ii === 1) { 
                 //đề
                 
                 if (t[i + 1] && !t[i + 1].includes("A")) {
-                    t.splice(0,1);
+                    appendChild.push(t[i]);
+                    continue;
                 }
                 else {
-                    format.Question = t[i];
+                    if (appendChild.length > 1) {
+                      format.Question = appendChild.join('\n');
+                      format.Question = [];
+                    }
+                    else {
+                      format.Question = t[i];
+                    }
                     ii++; 
                 }
             }
