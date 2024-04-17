@@ -16,7 +16,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://quizizz.com/admin/quiz/*"],
+      "matches": ["https://quizizz.com/admin/*"],
       "js": ["./js/Content_Script.js"],
       "run_at": "document_idle",
       "all_frames": false
@@ -24,7 +24,7 @@
   ],
   "permissions": [
       "activeTab",
-      "https://quizizz.com/*"
+      "https://quizizz.com/admin/*"
   ],
 
   "web_accessible_resources": ["./js/Content_Script.js"]
