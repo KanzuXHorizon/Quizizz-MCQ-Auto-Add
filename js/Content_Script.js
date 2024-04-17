@@ -219,7 +219,7 @@ function createPopup() {
                 else {
                     if (appendChild.length >= 1) {
                       format.Question = t[i] + appendChild.join('\n');
-                      format.Question = [];
+                      appendChild = []
                     }
                     else {
                       format.Question = t[i];
