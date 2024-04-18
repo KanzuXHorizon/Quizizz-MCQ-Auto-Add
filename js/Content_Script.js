@@ -1,5 +1,7 @@
 function createPopup() {
     // Create the popup container
+
+    
     const popupContainer = document.createElement('div');
     popupContainer.classList.add('popup-container');
     popupContainer.textContent = 'Auto';

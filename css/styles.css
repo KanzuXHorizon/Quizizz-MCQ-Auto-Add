@@ -1,0 +1,69 @@
+.timer {
+    height: 20px;
+    font-size: 14px;
+    width: 50%;
+    color: black;
+}
+.htcuu {
+    box-shadow: 0px 0px 20px black;
+    border-radius: 20px;
+    border-color: blue;
+    background-color: blue;
+}
+.inputbox,
+.p2 {
+    font-size: 15px;
+    border-radius: 20px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.inputbox,
+.p2,
+.timer {
+    box-shadow: 0px 0px 20px black;
+    border-radius: 20px;
+}
+
+.inputbox {
+    resize: vertical;
+    text-align: left;
+    border-radius: 20px;
+    border-color: transparent;
+    height: 200px;
+    width: 800px;
+    color: black;
+}
+
+.popup-container {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #4caf50;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: move;
+    z-index: 9999;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+}
+
+.popup-content {
+    display: none;
+    position: fixed;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 10000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-image: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    color: white;
+    font-size: 40px;
+}
