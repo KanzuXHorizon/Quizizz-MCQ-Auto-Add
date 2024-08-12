@@ -115,12 +115,27 @@ function Create_Interface() {
             Answer: [],
             Correct: 0
         }
+        var tempMathCheck = {
+            Injection: {
+                Index: 0,
+                Status: false,
+                Section: 'A'
+            },
+            Answer: 0,
+            Index: 0, // 1,2,3,4
+            currentSection: "A",
+            A: [],
+            B: [],
+            C: [],
+            D: []
+        };        
         var ii = 1
         var appendChild = '';
         for (let i = 0; i < t.length; i++) {
             if (ii === 1) { 
-                if (t[i + 1] && !t[i + 1].includes("A")) {
-                    appendChild += (t[i]) + '<br>';
+                if (t[i + 1] && !t[i + 1].includes("A. ")) {
+                    if (t[i].includes("<")) appendChild += (t[i]); // 13/08/2024 fix "\n" problem or anything :D
+                    else appendChild += (t[i]) + '<br>';
                     continue;
                 }
                 else {
@@ -135,6 +150,124 @@ function Create_Interface() {
                 }
             }
             else {
+
+                if (t[i].includes('<') ) {
+                    processMultipleLines(t[i]);
+                    //check Ending
+                    if (ConvertToSlotNumber(t[i]) != undefined && ConvertToSlotNumber(t[i]) != tempMathCheck.Index) {
+                        tempMathCheck.Injection.Status = true;
+                        tempMathCheck.Injection.Index = ConvertToSlotNumber(t[i]);
+                        tempMathCheck.Injection.Section = tempMathCheck.currentSection
+                    }
+                    else if (tempMathCheck.Index == 0 && t[i].includes('A.')) {
+                        if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>')) {
+                            //type: 1 line
+                            if (t[i].startsWith("*") || t[i].endsWith("*")) {
+                                t[i] = t[i].replace('*', '');
+                                format.Correct = ConvertToSlotNumber(t[i]);
+                            }
+                            format.Answer.push(t[i]);
+                            tempMathCheck = {
+                                Injection: {
+                                    Index: 0,
+                                    Status: false,
+                                    Section: 'A'
+                                },
+                                Answer: 0,
+                                Index: -1, // 1,2,3,4
+                                currentSection: "A",
+                                A: [],
+                                B: [],
+                                C: [],
+                                D: []
+                            };
+
+                            ii++;
+                        }
+                    }
+
+                    if (tempMathCheck.Injection.Status == true) {
+                        if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>')) {
+                            console.log(format, tempMathCheck.Injection.Index)
+                            format.Answer[Number(tempMathCheck.Injection.Index)] = tempMathCheck[tempMathCheck.Injection.Section].join(" ");
+                            if (tempMathCheck.Answer == tempMathCheck.Injection.Index) format.Correct = tempMathCheck.Injection.Index;
+
+                            if (Number(tempMathCheck.Injection.Index) == 3) {
+                                obj.push(format); 
+                                format = {
+                                    Question: "",
+                                    Answer: [],
+                                    Correct: 0
+                                }
+                                ii = 1;
+                                tempMathCheck = {
+                                    Injection: {
+                                        Index: 0,
+                                        Status: false,
+                                        Section: 'A'
+                                    },
+                                    Answer: 0,
+                                    Index: -1, // 1,2,3,4
+                                    currentSection: "A",
+                                    A: [],
+                                    B: [],
+                                    C: [],
+                                    D: []
+                                };
+                                continue;
+                            }
+                            else ii++;
+
+                            tempMathCheck = {
+                                Injection: {
+                                    Index: 0,
+                                    Status: false,
+                                    Section: 'A'
+                                },
+                                Answer: 0,
+                                Index: -1, // 1,2,3,4
+                                currentSection: "A",
+                                A: [],
+                                B: [],
+                                C: [],
+                                D: []
+                            };
+                        
+                        }
+                    }
+                    if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>')) tempMathCheck.Index++;
+                    if (tempMathCheck.Index == 4) {
+
+                        format.Answer = [tempMathCheck.A.join(' '),tempMathCheck.B.join(' '),tempMathCheck.C.join(' '),tempMathCheck.D.join(' ')]
+                        format.Correct = tempMathCheck.Answer
+                        obj.push(format); 
+                        format = {
+                                Question: "",
+                                Answer: [],
+                                Correct: 0
+                            }
+                        ii = 1;
+
+                        tempMathCheck = {
+                            Injection: {
+                                Index: 0,
+                                Status: false,
+                                Section: 'A'
+                            },
+                            Answer: 0,
+                            Index: 0, // 1,2,3,4
+                            currentSection: "A",
+                            A: [],
+                            B: [],
+                            C: [],
+                            D: []
+                        };
+                        // default dt
+                        continue;
+                    }
+                    else continue;
+                }
+
                 if (t[i].includes('\t')) {
                     let Format_Data = t[i].split('\t');
 
@@ -224,6 +357,7 @@ function Create_Interface() {
                 }
                 else {
                     //type a \n b \n c \n d
+                    if (ConvertToSlotNumber(t[i]) == undefined) continue
                     if (t[i].startsWith("*") || t[i].endsWith("*")) {
                         t[i] = t[i].replace('*', '');
                         format.Correct = ConvertToSlotNumber(t[i]);
@@ -242,6 +376,24 @@ function Create_Interface() {
             }
         }
         
+        function processMultipleLines(item) {
+            // :D this can be destroy anything asf
+            if (item.startsWith('A.') || item.startsWith('*A.')) {
+                if (item.startsWith('*A.')) tempMathCheck.Answer = 0;
+                tempMathCheck.currentSection = 'A';
+            } else if (item.startsWith('B.') || item.startsWith('*B.')) {
+                if (item.startsWith('*B.')) tempMathCheck.Answer = 1;
+                tempMathCheck.currentSection = 'B';
+            } else if (item.startsWith('C.') || item.startsWith('*C.')) {
+                if (item.startsWith('*C.')) tempMathCheck.Answer = 2;
+                tempMathCheck.currentSection = 'C';
+            } else if (item.startsWith('D.') || item.startsWith('*D.')) {
+                if (item.startsWith('*D.')) tempMathCheck.Answer = 3;
+                tempMathCheck.currentSection = 'D';
+            }
+            tempMathCheck[tempMathCheck.currentSection].push(item);
+        }
+
         console.log(obj)
         const error_aw = [];
         var x = 0;
