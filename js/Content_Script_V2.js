@@ -190,7 +190,7 @@ function Create_Interface() {
                     if (tempMathCheck.Injection.Status == true) {
                         if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>') || t[i].endsWith("</span>")) {
                             console.log(format, tempMathCheck.Injection.Index)
-                            format.Answer[Number(tempMathCheck.Injection.Index)] = tempMathCheck[tempMathCheck.Injection.Section].join(" ");
+                            format.Answer[Number(tempMathCheck.Injection.Index)] = tempMathCheck[tempMathCheck.Injection.Section].join("").replace('*', '');
                             if (tempMathCheck.Answer == tempMathCheck.Injection.Index) format.Correct = tempMathCheck.Injection.Index;
 
                             if (Number(tempMathCheck.Injection.Index) == 3) {
