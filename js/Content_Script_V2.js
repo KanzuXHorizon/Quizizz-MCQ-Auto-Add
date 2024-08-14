@@ -134,7 +134,8 @@ function Create_Interface() {
         for (let i = 0; i < t.length; i++) {
             if (ii === 1) { 
                 if (t[i + 1] && !t[i + 1].includes("A. ")) {
-                    if (t[i].includes("<")) appendChild += (t[i]); // 13/08/2024 fix "\n" problem or anything :D
+                    if (t[i].length < 3) continue;//\n happen
+                    if (t[i].includes("<")) appendChild = appendChild + (t[i]).replace(RegExp('\t', 'g'), '').replace(RegExp('\n','g'), ''); // 13/08/2024 fix "\n" problem or anything :D
                     else appendChild += (t[i]) + '<br>';
                     continue;
                 }
@@ -160,7 +161,7 @@ function Create_Interface() {
                         tempMathCheck.Injection.Section = tempMathCheck.currentSection
                     }
                     else if (tempMathCheck.Index == 0 && t[i].includes('A.')) {
-                        if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>')) {
+                        if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>') || t[i].endsWith("</span>")) {
                             //type: 1 line
                             if (t[i].startsWith("*") || t[i].endsWith("*")) {
                                 t[i] = t[i].replace('*', '');
@@ -187,7 +188,7 @@ function Create_Interface() {
                     }
 
                     if (tempMathCheck.Injection.Status == true) {
-                        if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>')) {
+                        if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>') || t[i].endsWith("</span>")) {
                             console.log(format, tempMathCheck.Injection.Index)
                             format.Answer[Number(tempMathCheck.Injection.Index)] = tempMathCheck[tempMathCheck.Injection.Section].join(" ");
                             if (tempMathCheck.Answer == tempMathCheck.Injection.Index) format.Correct = tempMathCheck.Injection.Index;
@@ -235,11 +236,12 @@ function Create_Interface() {
                         
                         }
                     }
-                    if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>')) tempMathCheck.Index++;
+                    if (t[i].endsWith(".") || t[i].endsWith(".</b>") || t[i].endsWith('.\t') || t[i].endsWith('</math></span>') || t[i].endsWith("</span>")) tempMathCheck.Index++;
                     if (tempMathCheck.Index == 4) {
 
                         format.Answer = [tempMathCheck.A.join(' '),tempMathCheck.B.join(' '),tempMathCheck.C.join(' '),tempMathCheck.D.join(' ')]
                         format.Correct = tempMathCheck.Answer
+                        format.Answer[tempMathCheck.Answer] = format.Answer[tempMathCheck.Answer].replace('*','')
                         obj.push(format); 
                         format = {
                                 Question: "",
