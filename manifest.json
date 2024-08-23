@@ -17,15 +17,22 @@
   "content_scripts": [
     {
       "matches": ["https://quizizz.com/admin/*"],
-      "js": ["./js/Content_Script_V2.js"],
+      "js": ["./js/assets/temml.min.js", "./js/assets/mhchem.min.js", "./js/assets/physics.js", "./js/assets/texvc.js", "./js/assets/xml-formatter.js","./js/Content_Script_V2.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    },
+    {
+      "matches": ["https://azota.vn/vi/*"],
+      "js": ["./js/Azota_Crawl.js"],
       "run_at": "document_idle",
       "all_frames": false
     }
   ],
   "permissions": [
       "activeTab",
-      "https://quizizz.com/admin/*"
+      "https://quizizz.com/admin/*",
+      "https://azota.vn/vi/*"
   ],
 
-  "web_accessible_resources": ["./js/Content_Script.js"]
+  "web_accessible_resources": ["./js/Content_Script.js","./js/Azota_Crawl.js", "./js/assets/temml.min.js", "./js/assets/mhchem.min.js", "./js/assets/physics.js", "./js/assets/texvc.js"]
 }
